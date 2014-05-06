@@ -1,7 +1,6 @@
 package com.wxy.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,20 +8,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.wxy.model.GoodsBean;
 import com.wxy.model.MyCartBO;
+import com.wxy.model.OrderBeanBO;
+import com.wxy.model.OrderInfoBean;
+import com.wxy.model.UserBean;
 
 /**
- * Servlet implementation class ShoppingClServlet
+ * Servlet implementation class OrderClServlet
  */
-@WebServlet("/ShoppingClServlet")
-public class ShoppingClServlet extends HttpServlet {
+@WebServlet("/OrderClServlet")
+public class OrderClServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ShoppingClServlet() {
+    public OrderClServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,31 +33,16 @@ public class ShoppingClServlet extends HttpServlet {
 	 */
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		OrderBeanBO orderBeanBO=new OrderBeanBO();
 		MyCartBO myCartBO=(MyCartBO) request.getSession().getAttribute("myCartBO");
-		if(myCartBO==null){
-			myCartBO=new MyCartBO();
-			request.getSession().setAttribute("myCartBO", myCartBO);
+		long userId=((UserBean)request.getSession().getAttribute("userBean")).getUserId();
+		OrderInfoBean orderInfoBean=orderBeanBO.addOrder(myCartBO, userId+"");
+		if (orderInfoBean!=null) {
+			request.setAttribute("orderInfoBean", orderInfoBean);
+			request.getRequestDispatcher("/shopping4.jsp").forward(request, response);
+		} else {
+			request.getRequestDispatcher("/shopping3.jsp").forward(request, response);
 		}
-		String goodsId=request.getParameter("goodsId");
-		String type=request.getParameter("type");
-		if (type.equals("addGoods")) {
-			myCartBO.addGoods(goodsId, "1");
-		} else if (type.equals("delGoods")) {
-			myCartBO.delGoods(goodsId);
-		}else if (type.equals("delAllGoods")) {
-			myCartBO.clearGoods();
-		}else if (type.equals("updateGoods")) {
-			String goodsIdString[]=request.getParameterValues("goodsId");
-			String newNumString[]=request.getParameterValues("newNum");
-			for (int i = 0; i < goodsIdString.length; i++) {
-				myCartBO.updateGoods(goodsIdString[i], newNumString[i]);
-			}
-		} else if (type.equals("showMyCart")) {
-			
-		}
-		ArrayList<GoodsBean> arrayList=myCartBO.showMyCart();
-		request.setAttribute("myCartInfo", arrayList);
-		request.getRequestDispatcher("/showMyCart.jsp").forward(request, response);
 	}
 
 	/**

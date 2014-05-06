@@ -16,7 +16,7 @@
 				window.open("/ShoppingMall/index.jsp","_self");
 			}
 			function addGoods(goodsId){
-				window.open("/ShoppingMall/ShoppingClServlet?goodsId="+goodsId);
+				window.open("/ShoppingMall/ShoppingClServlet?type=addGoods&goodsId="+goodsId);
 			}
 		</script>
 	</head>

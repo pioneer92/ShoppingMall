@@ -12,8 +12,17 @@ public class MyCartBO {
 	private ResultSet resultSet=null;
 	private Connection connection=null;
 	private PreparedStatement preparedStatement=null;
+	private float allPrice=0;
 	
 	HashMap<String, String> hashMap=new HashMap<String, String>();
+	
+	public String getGoodsNumById(String goodsId) {
+		return hashMap.get(goodsId);
+	}
+	
+	public float getAllPrice() {
+		return allPrice;
+	}
 	
 	public void addGoods(String goodsId,String goodsNum) {
 		hashMap.put(goodsId, goodsNum);
@@ -43,9 +52,10 @@ public class MyCartBO {
 					sql+=",";
 				}
 			}
-			sql+=")";
+			sql+=");";
 			preparedStatement=connection.prepareStatement(sql);
 			resultSet=preparedStatement.executeQuery();
+			allPrice=0;
 			GoodsBean goodsBean;
 			while(resultSet.next()){
 				goodsBean=new GoodsBean();
@@ -57,11 +67,11 @@ public class MyCartBO {
 				goodsBean.setPublisher(resultSet.getString(6));
 				goodsBean.setPhoto(resultSet.getString(7));
 				goodsBean.setType(resultSet.getString(8));
+				allPrice+=(resultSet.getFloat(4)*Integer.parseInt(hashMap.get(resultSet.getLong(1)+"")));
 				arrayList.add(goodsBean);
 			}
 			
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		} finally{
 			this.closeDB();
@@ -84,7 +94,6 @@ public class MyCartBO {
 				connection=null;
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 	}

@@ -8,8 +8,8 @@
   <tr>
     <td width="22%" align="center"><img src="images/ic_launcher.png" width="120" height="121" /></td>
     <td width="62%" align="center"><img src="images/psb.gif" width="249" height="131" /></td>
-    <td width="16%"><p class="abc">【我的账号】</p>
-    <p class="abc">【我的购物车】</p></td>
+    <td width="16%"><p class="abc"><a href="">【我的账号】</a></p>
+    <p class="abc"><a href="/ShoppingMall/ShoppingClServlet?type=showMyCart">【我的购物车】</a></p></td>
   </tr>
   <tr>
     <td colspan="3" bgcolor="#FFD4CE">&nbsp;</td>
