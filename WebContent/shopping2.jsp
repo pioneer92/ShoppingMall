@@ -1,5 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String info = (String) request.getAttribute("info");
+	String safelogout = request.getParameter("safelogout");
+	Cookie cookies[] = request.getCookies();
+	if (cookies != null) {
+		for (int i = 0; i < cookies.length; i++) {
+			Cookie cookie = cookies[i];
+			if (cookie.getName().equals("username")) {
+				if (safelogout != null) {
+					cookie.setMaxAge(0);
+					response.addCookie(cookie);
+				} else {
+					if (info != null) {
+						out.println("<h1>" + info + "</h1>"+cookie.getValue());
+					} else {
+						request.setAttribute("username", cookie.getValue());
+						request.getRequestDispatcher("/LoginCl").forward(request, response);
+					}
+				}
+			}
+		}
+	}
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,7 +30,7 @@
 <title>Insert title here</title>
 <link href="css/my.css" rel="stylesheet" type="text/css" />
 </head>
-<body bgcolor="#CEFFD4" topmargin="0">
+<body topmargin="0">
 <table  width="80%" border="1" align="center">
   <tr>
     <td align="center">
@@ -21,6 +44,11 @@
       </tr>
       <tr>
         <td align="center"><table width="44%" border="0" align="center">
+			<%
+				if (info != null) {
+					out.println("<h1>" + info + "</h1>");
+				}
+			%>
           <tr>
             <td width="245" height="254" rowspan="2" align="center"><img src="images/20140426131019.png" width="242" height="196" /></td>
             <td width="358" height="80" colspan="3" align="center" valign="bottom"><img src="images/20140426131222.png" width="234" height="66" /></td>
@@ -40,8 +68,8 @@
               <tr>
                 <td height="30" align="center">&nbsp;</td>
                 <td width="26%" align="left">
-                  <input type="checkbox" name="checkbox" id="userkeep" />
-               		 记住我
+                  <input type="checkbox" name="userkeep" id="userkeep" value="userkeep" />
+               		 自动登录
                 </td>
                 <td width="50%" align="left">忘记密码？</td>
               </tr>

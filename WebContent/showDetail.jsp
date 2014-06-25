@@ -12,15 +12,14 @@
 		<link href="css/my.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript">
 			function returnHall(){
-				String d;
-				window.open("/ShoppingMall/index.jsp","_self");
+				window.open("/ShoppingMall/index.jsp");
 			}
 			function addGoods(goodsId){
 				window.open("/ShoppingMall/ShoppingClServlet?type=addGoods&goodsId="+goodsId);
 			}
 		</script>
 	</head>
-	<body  bgcolor="#CEFFD4" topmargin="0">
+	<body topmargin="0">
 		<table width="80%" border="0" align="center">
 		  <tr>
 		    <td align="center">
@@ -37,10 +36,10 @@
 		        <td height="65" align="center"><%= goodsBean.getGoodsName() %></td>
 		      </tr>
 		      <tr>
-		        <td height="30" align="left">价格： <%= goodsBean.getGoodsPrice() %> RMB</td>
+		        <td height="30" align="left">ISBM： <%= goodsBean.getGoodsId() %></td>
 		      </tr>
 		      <tr>
-		        <td height="30" align="left">ISBM： <%= goodsBean.getGoodsId() %></td>
+		        <td height="30" align="left">价格： <%= goodsBean.getGoodsPrice() %> RMB</td>
 		      </tr>
 		      <tr>
 		        <td height="30" align="left">类型： <%= goodsBean.getType() %></td>

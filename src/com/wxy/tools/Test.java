@@ -1,6 +1,8 @@
-package com.wxy.servlet;
+package com.wxy.tools;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,20 +10,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.wxy.model.GoodsBean;
-import com.wxy.model.GoodsBeanBO;
-
 /**
- * Servlet implementation class ShowGoodsClServlet
+ * Servlet implementation class Test
  */
-@WebServlet("/ShowGoodsClServlet")
-public class ShowGoodsClServlet extends HttpServlet {
+@WebServlet("/Test")
+public class Test extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ShowGoodsClServlet() {
+    public Test() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,23 +31,18 @@ public class ShowGoodsClServlet extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		String cmd=request.getParameter("cmd");
-		if (cmd.equals("showDetail")) {
-			String goodsId=request.getParameter("id");
-			GoodsBeanBO goodsBeanBO=new GoodsBeanBO();
-			GoodsBean goodsBean=goodsBeanBO.getGoodsBean(goodsId);
-			request.setAttribute("goodsInfo", goodsBean);
-			request.getRequestDispatcher("/showDetail.jsp").forward(request, response);
-		} else if (cmd.equals("fenye")) {
-			String pageNow=request.getParameter("pageNow");
-			request.getRequestDispatcher("/index.jsp?pageNow="+pageNow).forward(request, response);
-		} else if (cmd.equals("search")) {
-			String pageNow=request.getParameter("pageNow");
-			String search=request.getParameter("search");
-			System.out.println(search);
-			request.getRequestDispatcher("/index.jsp?pageNow="+pageNow+"&search="+search).forward(request, response);
-		}		 
+		Enumeration<String> enumeration=request.getParameterNames();
+		while (enumeration.hasMoreElements()) {
+			String parameter=enumeration.nextElement();
+			System.out.println("___"+parameter+"___"+request.getParameter(parameter)+"___");
+			String t[]=request.getParameter(parameter).split(" ");
+			for (int i = 0; i < t.length; i++) {
+				if (!t[i].equals("")) {
+					System.out.println("__"+t[i]+"__");
+				}
+			}
+			System.out.println();
+		}
 	}
 
 	/**

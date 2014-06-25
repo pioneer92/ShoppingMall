@@ -19,7 +19,7 @@
 			}
 		</script>
 	</head>
-	<body bgcolor="#CEFFD4" topmargin="0">
+	<body topmargin="0">
 		<table width="80%" border="1" align="center">
 		  <tr>
 		    <td align="center" class="abc">

@@ -16,7 +16,7 @@
 <title>Insert title here</title>
 <link href="css/my.css" rel="stylesheet" type="text/css" />
 </head>
-<body bgcolor="#CEFFD4" topmargin="0">
+<body topmargin="0">
 	<table width="80%" border="0" align="center" class="abc">
 	  <tr>
 	    <td align="center">

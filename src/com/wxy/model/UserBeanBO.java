@@ -2,10 +2,84 @@ package com.wxy.model;
 
 import java.sql.*;
 
+import com.wxy.tools.MD5Util;
+
 public class UserBeanBO {
 	private Connection connection=null;
 	private Statement statement=null;
-	private ResultSet resultSet=null;
+	private ResultSet resultSet=null;	
+	
+	public boolean registerUser(String username,String realname,String password,String phone,String address,String zipcode,String email){
+		try {
+			ConnDB connDB=new ConnDB();
+			connection=connDB.getConnection();
+			statement=connection.createStatement();
+			String sql="insert into users (username,realname,password,phone,address,zipcode,email) values('"+username+"','"+realname+"','"+MD5Util.getMD5(password)+"','"+phone+"','"+address+"','"+zipcode+"','"+email+"');";
+			if (statement.executeUpdate(sql)>0) {
+				return true;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			this.closeDB();
+		}
+		return false;
+	}
+	
+	public boolean hasUser(String username){
+		try {
+			ConnDB connDB=new ConnDB();
+			connection=connDB.getConnection();
+			statement=connection.createStatement();
+			resultSet=statement.executeQuery("select * from users where username = '"+username+"' limit 1;");
+			if (resultSet.next()) {
+				return true;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			this.closeDB();
+		}
+		return false;
+	}
+	
+	public boolean hasPhone(String phone){
+		try {
+			ConnDB connDB=new ConnDB();
+			connection=connDB.getConnection();
+			statement=connection.createStatement();
+			resultSet=statement.executeQuery("select * from users where phone = '"+phone+"' limit 1;");
+			if (resultSet.next()) {
+				return true;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			this.closeDB();
+		}
+		return false;
+	}
+	
+	public boolean hasEmail(String email){
+		try {
+			ConnDB connDB=new ConnDB();
+			connection=connDB.getConnection();
+			statement=connection.createStatement();
+			resultSet=statement.executeQuery("select * from users where email = '"+email+"' limit 1;");
+			if (resultSet.next()) {
+				return true;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			this.closeDB();
+		}
+		return false;
+	}
 	
 	public int checkUser(String username,String password){
 		int b=0;
@@ -17,7 +91,7 @@ public class UserBeanBO {
 			if (resultSet.next()) {
 				b++;
 				String dbPassword=resultSet.getString(1);
-				if (dbPassword.equals(password)) {
+				if (dbPassword.equals(MD5Util.getMD5(password))) {
 					b++;
 				}
 			}

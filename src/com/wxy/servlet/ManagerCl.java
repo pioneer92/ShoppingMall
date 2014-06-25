@@ -12,16 +12,16 @@ import com.wxy.model.GoodsBean;
 import com.wxy.model.GoodsBeanBO;
 
 /**
- * Servlet implementation class ShowGoodsClServlet
+ * Servlet implementation class ManagerCl
  */
-@WebServlet("/ShowGoodsClServlet")
-public class ShowGoodsClServlet extends HttpServlet {
+@WebServlet("/ManagerCl")
+public class ManagerCl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ShowGoodsClServlet() {
+    public ManagerCl() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,21 +34,28 @@ public class ShowGoodsClServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		String cmd=request.getParameter("cmd");
-		if (cmd.equals("showDetail")) {
-			String goodsId=request.getParameter("id");
-			GoodsBeanBO goodsBeanBO=new GoodsBeanBO();
-			GoodsBean goodsBean=goodsBeanBO.getGoodsBean(goodsId);
+		String goodsId=request.getParameter("id");
+		GoodsBeanBO goodsBeanBO=new GoodsBeanBO();
+		GoodsBean goodsBean=goodsBeanBO.getGoodsBean(goodsId);
+		if (cmd.equals("managerDetail")) {
 			request.setAttribute("goodsInfo", goodsBean);
-			request.getRequestDispatcher("/showDetail.jsp").forward(request, response);
-		} else if (cmd.equals("fenye")) {
-			String pageNow=request.getParameter("pageNow");
-			request.getRequestDispatcher("/index.jsp?pageNow="+pageNow).forward(request, response);
-		} else if (cmd.equals("search")) {
-			String pageNow=request.getParameter("pageNow");
-			String search=request.getParameter("search");
-			System.out.println(search);
-			request.getRequestDispatcher("/index.jsp?pageNow="+pageNow+"&search="+search).forward(request, response);
-		}		 
+			request.getRequestDispatcher("/detailManager.jsp").forward(request, response);
+		} else if(cmd.equals("updateGoods")){
+			goodsBean.setGoodsName(request.getParameter("goodsName"));
+			goodsBean.setGoodsPrice(Float.parseFloat(request.getParameter("goodsPrice")));
+			goodsBean.setType(request.getParameter("type"));
+			goodsBean.setPublisher(request.getParameter("publisher"));
+			goodsBean.setGoodsIntro(request.getParameter("goodsIntro"));
+			if(goodsBeanBO.updateGoods(goodsBean)){
+				request.setAttribute("message", "保存商品信息成功");
+				goodsBean=goodsBeanBO.getGoodsBean(goodsId);
+			}
+			else{
+				request.setAttribute("message", "保存商品信息失败");
+			}
+			request.setAttribute("goodsInfo", goodsBean);
+			request.getRequestDispatcher("/detailManager.jsp").forward(request, response);
+		}
 	}
 
 	/**

@@ -1,22 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	request.setCharacterEncoding("UTF-8");
+	response.setContentType("text/html;charset=UTF-8");
+	String search=request.getParameter("search");
+	search=(search==null || search.equals(""))?"":search;
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <table width="100%" border="0" align="center" class="abc">
   <tr>
-    <td align="center"><table width="100%" border="0" align="center">
-      <tr>
-        <td align="center"><img src="images/20140327204841.png" width="173" height="63" /></td>
+    <td align="center"><form action="/ShoppingMall/index.jsp?cmd=search&pageNow=1" method="post">
+    <table width="100%" border="0" align="center">
+    <tr>
+        <td align="center">站内搜索</td>
       </tr>
       <tr>
-        <td align="center">滚动广告</td>
+        <td align="center"><input type="text" name="search" value="<%=search %>" /></td>
       </tr>
-    </table></td>
+      <tr>
+        <td align="center"><input type="submit" value="搜索"></td>
+      </tr>
+    </table></form></td>
   </tr>
   <tr>
-    <td align="center" bgcolor="#FFD4CE">&nbsp;</td>
+    <td align="center" bgcolor="#F5F5F5">&nbsp;</td>
   </tr>
   <tr>
-    <td align="center"><table width="100%" border="1" align="center" class="abc">
+    <td align="center"><table width="100%" border="0" align="center" class="abc">
       <tr>
         <td colspan="3" align="center"><img src="images/20140327204841.png" alt="" width="173" height="63" /></td>
         </tr>
